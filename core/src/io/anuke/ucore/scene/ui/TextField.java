@@ -556,10 +556,11 @@ public class TextField extends Element implements Disableable {
 	}
 	
 	public void typed(Consumer<Character> cons){
+		final Consumer<Character> consw=cons;
 		setTextFieldListener(new TextFieldListener() {
 			@Override
 			public void keyTyped(TextField textField, char c) {
-				cons.accept(c);
+				consw.accept(c);
 			}
 		});
 	}

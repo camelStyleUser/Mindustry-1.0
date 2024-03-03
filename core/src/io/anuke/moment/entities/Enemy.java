@@ -8,7 +8,7 @@ import io.anuke.moment.ai.Pathfind;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.entities.*;
 import io.anuke.ucore.util.Timers;
-
+import java.util.function.*;
 public class Enemy extends DestructibleEntity{
 	public static int amount = 0;
 	
@@ -37,9 +37,9 @@ public class Enemy extends DestructibleEntity{
 		
 		Moment.module(Control.class).tryMove(this, vec.x*delta, vec.y*delta);
 		
-		target = Entities.getClosest(x, y, 60, e->{
+		target = Entities.getClosest(x, y, 60, new Predicate<Entity>(){public boolean test(Entity e){
 			return (e instanceof TileEntity || e instanceof Player);
-		});
+		}});
 		
 		if(target != null){
 			if(Timers.get(this, reload))

@@ -14,10 +14,11 @@ public class ListDialog extends Dialog{
 	}
 	
 	public ListDialog addOption(String name, Runnable run){
-		content().addButton(name, ()->{
+		final Runnable runw=run;
+		content().addButton(name, new Runnable(){public void run(){
 			hide();
-			run.run();
-		}).padLeft(10f).padRight(10f).padBottom(5f).width(200f);
+			runw.run();
+		}}).padLeft(10f).padRight(10f).padBottom(5f).width(200f);
 		content().row();
 		return this;
 	}

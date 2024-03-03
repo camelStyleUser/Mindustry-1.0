@@ -124,10 +124,10 @@ public class Moment extends ModuleController<Moment>{
 		int amount = 3*wave;
 		
 		for(int i = 0; i < amount; i ++){
-			int point = i%spawnpoints.size;
-			Tile tile = spawnpoints.get(point);
+			final int point = i%spawnpoints.size;
+			final Tile tile = spawnpoints.get(point);
 			
-			Timers.run((int)(i/spawnpoints.size)*40f, new Runnable(){void run(){
+			Timers.run((int)(i/spawnpoints.size)*40f, new Runnable(){public void run(){
 				new Enemy(point).set(tile.worldx(), tile.worldy()).add();
 			}});
 			

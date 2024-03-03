@@ -132,10 +132,10 @@ public class Dialog extends Window {
 		ImageButton closeButton = new ImageButton(Styles.styles.get("close-window", ImageButtonStyle.class));
 		
 		titleTable.add(closeButton).padRight(-getPadRight() + 0.7f+closePadR).size(40).padTop(-titleTable.getPadTop()-12+closePadT);
-		
-		closeButton.changed(()->{
-			hide();
-		});
+		final Dialog thisw=this;
+		closeButton.changed(new Runnable(){public void run(){
+			thisw.hide();
+		}});
 
 		if (titleLabel.getLabelAlign() == Align.center && titleTable.getChildren().size == 2)
 			titleTable.getCell(titleLabel).padLeft(closeButton.getWidth() * 2);

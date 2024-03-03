@@ -303,11 +303,13 @@ public class Table extends WidgetGroup {
 	}
 	
 	public CheckBox newCheck(String text, Consumer<Boolean> listener){
-		CheckBox button = new CheckBox(text);
-		if(listener != null)
-		button.changed(()->{
-			listener.accept(button.isChecked());
-		});
+		final CheckBox button = new CheckBox(text);
+		if(listener != null){
+		final Consumer<Boolean> listenerw=listener;
+		button.changed(new Runnable(){public void run(){
+			listenerw.accept(button.isChecked());
+		}});
+		}
 		return button;
 	}
 	
@@ -342,12 +344,13 @@ public class Table extends WidgetGroup {
 	}
 	
 	public TextField newField(String text, Consumer<String> listener){
-		TextField field = new TextField(text);
-		if(listener != null)
-			field.changed(()->{
-				listener.accept(field.getText());
-			});
-		
+		final TextField field = new TextField(text);
+		if(listener != null){
+			final Consumer<String> listenerw=listener;
+			field.changed(new Runnable(){public void run(){
+				listenerw.accept(field.getText());
+			}});
+		}
 		return field;
 	}
 	
@@ -357,9 +360,10 @@ public class Table extends WidgetGroup {
 	}
 	
 	public Cell add(DrawRect draw){
+		final DrawRect draww=draw;
 		return add(new Element(){
 			public void draw(){
-				draw.draw(getX(), getY(), getWidth(), getHeight());
+				draww.draw(getX(), getY(), getWidth(), getHeight());
 			}
 		});
 	}

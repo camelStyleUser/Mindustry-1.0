@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.util.Mathf;
-
+import java.util.function.*;
 public class UMusic{
 	private static Array<Music> music = new Array<>();
 	private static ObjectMap<String, Music> map = new ObjectMap<>();
@@ -20,7 +20,7 @@ public class UMusic{
 			music.add(Gdx.audio.newMusic(Gdx.files.internal("music/" + s)));
 			map.put(s.split(".")[0], music.peek());
 
-			music.peek().setOnCompletionListener(other -> {
+			music.peek().setOnCompletionListener(new Music.OnCompletionListener(){public void onCompletion(Music other){
 				if(!shuffling)
 					return;
 
@@ -29,7 +29,7 @@ public class UMusic{
 				playing.setVolume(volume);
 				playing.play();
 
-			});
+			}});
 		}
 	}
 

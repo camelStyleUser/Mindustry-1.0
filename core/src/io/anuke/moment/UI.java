@@ -67,10 +67,10 @@ public class UI extends SceneModule<Moment>{
 				
 				get().background("button");
 				
-				for(Recipe r : Recipe.values()){
-					Image image = new Image(Draw.region(r.result.name()));
+				for(final Recipe r : Recipe.values()){
+					final Image image = new Image(Draw.region(r.result.name()));
 					
-					new button(r.result.name(), new Runnable(){void run(){
+					new button(r.result.name(), new Runnable(){public void run(){
 						main.recipe = r;}
 					}){{
 						get().clearChildren();
@@ -105,8 +105,8 @@ public class UI extends SceneModule<Moment>{
 						
 						get().addListener(tip);
 						
-						Recipe current = r;
-						get().update(new Runnable(){void run(){
+						final Recipe current = r;
+						get().update(new Runnable(){public void run(){
 							get().setDisabled(!main.hasItems(current.requirements));
 							//get().setTouchable(!main.hasItems(current.requirements) ? Touchable.disabled : Touchable.enabled);
 							}
@@ -140,7 +140,7 @@ public class UI extends SceneModule<Moment>{
 				
 				new label("Wave 1"){{
 					get().setFontScale(1f);
-					get().update(new Runnable(){void run(){
+					get().update(new Runnable(){public void run(){
 						get().setText("[YELLOW]Wave " + Moment.i.wave);
 						}
 					});
@@ -149,7 +149,7 @@ public class UI extends SceneModule<Moment>{
 				row();
 				
 				new label("Time"){{
-					get().update(new Runnable(){void run(){
+					get().update(new Runnable(){public void run(){
 						get().setText(Enemy.amount > 0 ? 
 								Enemy.amount+" Enemies remaining" : "New wave in " + (int)(main.wavetime/60f));
 						}
@@ -162,7 +162,7 @@ public class UI extends SceneModule<Moment>{
 		
 		
 		updateItems();
-		
+		MomentVars.platform.graphinit();
 		build.end();
 	}
 	

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import io.anuke.ucore.core.KeyBinds;
 import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.layout.Table;
-
+import java.util.function.*;
 public class KeybindDialog extends Dialog{
 	private KeybindDialogStyle style;
 	
@@ -27,20 +27,21 @@ public class KeybindDialog extends Dialog{
 		table.clear();
 		
 		for(String s : KeyBinds.getBinds()){
+			final String sw=s;
 			Label keylabel = new Label(Keys.toString(KeyBinds.get(s)));
 			
 			keylabel.setColor(style.keyColor);
 			
 			table.add(capitalize(s), style.keyNameColor).left().padRight(40).padLeft(8);
 			table.add(keylabel).left().minWidth(90).padRight(20);
-			table.addButton("Rebind", ()->{
-				openDialog(s);
-			});
-			table.addButton("Reset", ()->{
-				KeyBinds.resetKey(s);
+			table.addButton("Rebind", new Runnable(){public void run(){
+				openDialog(sw);
+			}});
+			table.addButton("Reset", new Runnable(){public void run(){
+				KeyBinds.resetKey(sw);
 				setup();
 				KeyBinds.saveBindings();
-			});
+			}});
 			table.row();
 		}
 		
@@ -48,17 +49,17 @@ public class KeybindDialog extends Dialog{
 	}
 	
 	private void openDialog(String name){
-		Dialog d = new Dialog("Press a key...", "dialog");
+		final Dialog d = new Dialog("Press a key...", "dialog");
 		
 		d.getTitleTable().getCells().first().pad(4);
 		d.button("Cancel", -1).pad(4);
-		
-		d.keyDown(i->{
+		final String namew=name;
+		d.keyDown(new IntConsumer(){public void accept(int i){
 			d.hide();
-			KeyBinds.rebindKey(name, i);
+			KeyBinds.rebindKey(namew, i);
 			KeyBinds.saveBindings();
 			setup();
-		});
+		}});
 		
 		d.show(getScene());
 	}

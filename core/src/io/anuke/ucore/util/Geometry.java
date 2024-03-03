@@ -26,13 +26,13 @@ public class Geometry{
 		return v;
 	}
 	
-	public static java.awt.Polygon polygon(float[] vertices){
-		java.awt.Polygon poly = new java.awt.Polygon();
+	/*public static io.anuke.ucore.util.Polygon polygon(float[] vertices){
+		io.anuke.ucore.util.Polygon poly = new io.anuke.ucore.util.Polygon();
 		for(int i = 0; i < vertices.length/2; i ++)
 		poly.addPoint((int)vertices[i*2], (int)vertices[i*2+1]);
 		
 		return poly;
-	}
+	}*/
 	
 	/**copied from the libGDX source*/
 	public static boolean intersectPolygons (float[] p1, float[] p2) {

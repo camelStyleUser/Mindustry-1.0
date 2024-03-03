@@ -10,7 +10,10 @@ import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.UInput;
 import io.anuke.ucore.entities.DestructibleEntity;
 import io.anuke.ucore.util.Angles;
-
+import io.anuke.moment.MomentVars;
+//left mouse-select
+//right mouse-deselect and break
+//up,down,left,right-movement
 public class Player extends DestructibleEntity{
 	Vector2 direction = new Vector2();
 	float speed = 2f;
@@ -38,14 +41,7 @@ public class Player extends DestructibleEntity{
 	public void update(){
 		vector.set(0, 0);
 		
-		if(UInput.keyDown("up"))
-			vector.y += speed;
-		if(UInput.keyDown("down"))
-			vector.y -= speed;
-		if(UInput.keyDown("left"))
-			vector.x -= speed;
-		if(UInput.keyDown("right"))
-			vector.x += speed;
+		MomentVars.platform.move(vector,speed);
 		
 		reload -= delta;
 		

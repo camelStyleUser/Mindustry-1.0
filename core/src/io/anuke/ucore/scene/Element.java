@@ -54,9 +54,10 @@ public class Element extends BaseElement{
 	
 	/**Adds a keydown input listener.*/
 	public void keyDown(IntConsumer cons){
+		final IntConsumer consw=cons;
 		addListener(new InputListener(){
 			public boolean keyDown (InputEvent event, int keycode) {
-				cons.accept(keycode);
+				consw.accept(keycode);
 				return true;
 			}
 		});
@@ -64,11 +65,12 @@ public class Element extends BaseElement{
 	
 	/**Adds a click listener.*/
 	public ClickListener clicked(Runnable r){
+		final Runnable rw=r;
 		ClickListener click;
 		addListener(click = new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				r.run();
+				rw.run();
 			}
 		});
 		return click;
@@ -85,19 +87,21 @@ public class Element extends BaseElement{
 	
 	/**Adds a click listener.*/
 	public void changed(Runnable r){
+		final Runnable rw=r;
 		addListener(new ChangeListener(){
 			@Override
 			public void changed(ChangeEvent event, Element actor){
-				r.run();
+				rw.run();
 			}
 		});
 	}
 	
 	public void update(Runnable r){
+		final Runnable rw=r;
 		addAction(new Action(){
 			@Override
 			public boolean act(float delta){
-				r.run();
+				rw.run();
 				return false;
 			}
 		});

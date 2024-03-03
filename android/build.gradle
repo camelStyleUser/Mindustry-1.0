@@ -1,4 +1,8 @@
 android {
+    lintOptions {
+          abortOnError false
+      }
+
     buildToolsVersion("30.0.2")
     compileSdkVersion(30)
     compileOptions {
@@ -35,8 +39,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
 }

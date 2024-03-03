@@ -99,11 +99,11 @@ public class Entities{
 			if(collided.contains((int)entity.id)) continue;
 				
 			((QuadTreeObject)entity).getBoundingBox(Rectangle.tmp2);
-			
-			tree.getMaybeIntersecting(c->{
+			final SolidEntity entityw=(SolidEntity)entity;
+			tree.getMaybeIntersecting(new Consumer<SolidEntity>(){public void accept(SolidEntity c){
 				if(!collided.contains((int)c.id))
-						checkCollide(entity, c);
-			}, Rectangle.tmp2);
+						checkCollide(entityw, c);
+			}}, Rectangle.tmp2);
 			
 			collided.add((int)entity.id);
 		}

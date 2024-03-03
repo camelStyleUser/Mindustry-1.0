@@ -1,7 +1,7 @@
 package io.anuke.moment;
 
 import static io.anuke.moment.world.TileType.tilesize;
-
+import java.util.function.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
+import io.anuke.moment.MomentVars;
 //import io.anuke.gif.GifRecorder;
 import io.anuke.moment.ai.Pathfind;
 import io.anuke.moment.entities.Enemy;
@@ -47,54 +47,54 @@ public class Control extends RendererModule<Moment>{
 
 		Entities.initPhysics(0, 0, main.pixsize, main.pixsize);
 
-		Effect.addDraw("place", 16, e -> {
+		Effect.addDraw("place", 16, new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(3f - e.ifract() * 2f);
 			Draw.square(e.x, e.y, TileType.tilesize / 2 + e.ifract() * 3f);
 			Draw.clear();
-		});
-
-		Effect.addDraw("spark", 10, e -> {
+		}});
+		MomentVars.platform.init();
+		Effect.addDraw("spark", 10,  new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(1f);
 			Draw.color(Hue.mix(Color.WHITE, Color.GRAY, e.ifract()));
 			Draw.spikes(e.x, e.y, e.ifract() * 5f, 2, 8);
 			Draw.clear();
-		});
+		}});
 		
-		Effect.addDraw("smelt", 10, e -> {
+		Effect.addDraw("smelt", 10,  new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(1f);
 			Draw.color(Hue.mix(Color.YELLOW, Color.RED, e.ifract()));
 			Draw.spikes(e.x, e.y, e.ifract() * 5f, 2, 8);
 			Draw.clear();
-		});
+		}});
 
-		Effect.addDraw("break", 12, e -> {
+		Effect.addDraw("break", 12,  new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(2f);
 			Draw.color(Color.WHITE, Color.GRAY, e.ifract());
 			Draw.spikes(e.x, e.y, e.ifract() * 5f, 2, 5);
 			Draw.clear();
-		});
+		}});
 
-		Effect.addDraw("hit", 10, e -> {
+		Effect.addDraw("hit", 10,  new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(1f);
 			Draw.color(Hue.mix(Color.WHITE, Color.ORANGE, e.ifract()));
 			Draw.spikes(e.x, e.y, e.ifract() * 3f, 2, 8);
 			Draw.clear();
-		});
+		}});
 
-		Effect.addDraw("explosion", 15, e -> {
+		Effect.addDraw("explosion", 15,  new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(2f);
 			Draw.color(Hue.mix(Color.ORANGE, Color.GRAY, e.ifract()));
 			Draw.spikes(e.x, e.y, 2f + e.ifract() * 3f, 4, 6);
 			Draw.circle(e.x, e.y, 3f + e.ifract() * 3f);
 			Draw.clear();
-		});
+		}});
 
-		Effect.addDraw("ind", 100, e -> {
+		Effect.addDraw("ind", 100,  new Consumer<Effect>(){public void accept(Effect e){
 			Draw.thickness(3f);
 			Draw.color("royal");
 			Draw.circle(e.x, e.y, 3);
 			Draw.clear();
-		});
+		}});
 
 		Pathfind.updatePath();
 	}
@@ -135,7 +135,7 @@ public class Control extends RendererModule<Moment>{
 
 	void input(){
 
-		if(UInput.keyUp("rotate"))
+		if(MomentVars.platform.rotate())
 			main.rotation++;
 
 		main.rotation %= 4;
@@ -144,11 +144,11 @@ public class Control extends RendererModule<Moment>{
 			main.recipe = null;
 			Cursors.restoreCursor();
 		}
-		
-		if(UInput.keyUp(Keys.G))
-			new Enemy(0).set(main.player.x, main.player.y).add();
+		//no
+		/*if(UInput.keyUp(Keys.G))
+			new Enemy(0).set(main.player.x, main.player.y).add();*/
 
-		if(UInput.buttonUp(Buttons.LEFT) && main.recipe != null && validPlace(tilex(), tiley(), main.recipe.result) && !get(UI.class).hasMouse()){
+		if(MomentVars.platform.isSelecting() && main.recipe != null && validPlace(tilex(), tiley(), main.recipe.result) && !get(UI.class).hasMouse()){
 			Tile tile = main.tile(tilex(), tiley());
 			if(tile == null)
 				return; //just in ase
@@ -171,13 +171,13 @@ public class Control extends RendererModule<Moment>{
 			}
 		}
 
-		if(main.recipe != null && UInput.buttonUp(Buttons.RIGHT)){
+		if(main.recipe != null && MomentVars.platform.isDeselecting()){
 			main.recipe = null;
 			Cursors.restoreCursor();
 		}
 
 		//block breaking
-		if(UInput.buttonDown(Buttons.RIGHT) && cursorNear() && main.tile(tilex(), tiley()).artifical()
+		if(MomentVars.platform.isBreaking() && cursorNear() && main.tile(tilex(), tiley()).artifical()
 				&& main.tile(tilex(), tiley()).block() != TileType.core){
 			Tile tile = main.tile(tilex(), tiley());
 			breaktime += delta();
@@ -191,6 +191,7 @@ public class Control extends RendererModule<Moment>{
 		}else{
 			breaktime = 0f;
 		}
+		MomentVars.platform.update();
 
 	}
 
@@ -320,7 +321,7 @@ public class Control extends RendererModule<Moment>{
 		}
 
 		//block breaking
-		if(UInput.buttonDown(Buttons.RIGHT) && cursorNear()){
+		if(MomentVars.platform.isBreaking() && cursorNear()){
 			Tile tile = main.tile(tilex(), tiley());
 			if(tile.artifical() && tile.block() != TileType.core){
 				Draw.color(Color.YELLOW, Color.SCARLET, breaktime / breakdur);
@@ -351,7 +352,7 @@ public class Control extends RendererModule<Moment>{
 			}
 		}
 
-		//Draw.text(Gdx.graphics.getFramesPerSecond() + " FPS", main.player.x, main.player.y);
+		Draw.text(Gdx.graphics.getFramesPerSecond() + " FPS", main.player.x, main.player.y);
 	}
 
 	void drawHealth(DestructibleEntity dest){
