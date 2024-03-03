@@ -13,17 +13,17 @@ public class checkbox extends builder<checkbox, CheckBox>{
 	public checkbox(String text, Consumer<Boolean> listener){
 		element = new CheckBox(text);
 		if(listener != null)
-		element.changed(()->{
+		element.changed(new Runnable(){void run(){
 			listener.accept(element.isChecked());
-		});
+		}});
 		
 		cell = context().add(element);
 	}
 	
 	public checkbox changed(Consumer<Boolean> listener){
-		element.changed(()->{
+		element.changed(new Runnable(){void run(){
 			listener.accept(element.isChecked());
-		});
+		}});
 		return this;
 	}
 }

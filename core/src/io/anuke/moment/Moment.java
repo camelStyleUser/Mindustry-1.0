@@ -127,9 +127,9 @@ public class Moment extends ModuleController<Moment>{
 			int point = i%spawnpoints.size;
 			Tile tile = spawnpoints.get(point);
 			
-			Timers.run((int)(i/spawnpoints.size)*40f, ()->{
+			Timers.run((int)(i/spawnpoints.size)*40f, new Runnable(){void run(){
 				new Enemy(point).set(tile.worldx(), tile.worldy()).add();
-			});
+			}});
 			
 		}
 		

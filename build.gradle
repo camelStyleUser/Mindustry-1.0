@@ -4,9 +4,12 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
+	maven { url 'https://maven.google.com' }
+	maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+	classpath 'com.android.tools.build:gradle:2.3.3'
     }
 }
 
@@ -27,7 +30,6 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
-
 project(":desktop") {
     apply plugin: "java"
 
@@ -53,4 +55,21 @@ project(":core") {
 
 tasks.eclipse.doLast {
     delete ".project"
+}
+
+
+project(":android") {
+    apply plugin: "com.android.application"
+    //buildToolsVersion "30.0.2"
+    configurations { natives }
+
+    dependencies {
+        compile project(":core")
+        compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+
+    }
 }

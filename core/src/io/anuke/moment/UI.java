@@ -70,8 +70,8 @@ public class UI extends SceneModule<Moment>{
 				for(Recipe r : Recipe.values()){
 					Image image = new Image(Draw.region(r.result.name()));
 					
-					new button(r.result.name(), ()->{
-						main.recipe = r;
+					new button(r.result.name(), new Runnable(){void run(){
+						main.recipe = r;}
 					}){{
 						get().clearChildren();
 						get().pad(10f);
@@ -106,9 +106,10 @@ public class UI extends SceneModule<Moment>{
 						get().addListener(tip);
 						
 						Recipe current = r;
-						get().update(()->{
+						get().update(new Runnable(){void run(){
 							get().setDisabled(!main.hasItems(current.requirements));
 							//get().setTouchable(!main.hasItems(current.requirements) ? Touchable.disabled : Touchable.enabled);
+							}
 						});
 						
 					}}.width(220f);
@@ -139,17 +140,19 @@ public class UI extends SceneModule<Moment>{
 				
 				new label("Wave 1"){{
 					get().setFontScale(1f);
-					get().update(()->{
+					get().update(new Runnable(){void run(){
 						get().setText("[YELLOW]Wave " + Moment.i.wave);
+						}
 					});
 				}}.left();
 				
 				row();
 				
 				new label("Time"){{
-					get().update(()->{
+					get().update(new Runnable(){void run(){
 						get().setText(Enemy.amount > 0 ? 
 								Enemy.amount+" Enemies remaining" : "New wave in " + (int)(main.wavetime/60f));
+						}
 					});
 				}}.minWidth(150);
 				
