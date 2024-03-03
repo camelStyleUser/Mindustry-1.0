@@ -8,7 +8,7 @@ import io.anuke.moment.Moment;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Moment");
+		config.setTitle("Moment(mindustry 1.0).compiled by 6f#6626");
 		config.setMaximized(true);
 		config.useVsync(false);
 		new Lwjgl3Application(new Moment(), config);
