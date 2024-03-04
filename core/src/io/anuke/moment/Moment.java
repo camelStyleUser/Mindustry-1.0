@@ -31,7 +31,7 @@ public class Moment extends ModuleController<Moment>{
 	public Recipe recipe;
 	public int rotation;
 	public float placerange = 60;
-	
+	public static boolean seenBuild=false;
 	public int wave = 1;
 	public float wavespace = 2000/100;
 	public float wavetime = wavespace;
@@ -101,7 +101,7 @@ public class Moment extends ModuleController<Moment>{
 		}
 		core.setBlock(TileType.core);
 		int x = core.x, y = core.y;
-		
+		if(!seenBuild){
 		set(x, y-1, TileType.conveyor, 1);
 		set(x, y-2, TileType.router, 0);
 		set(x, y-3, TileType.conveyor, 1);
@@ -118,6 +118,7 @@ public class Moment extends ModuleController<Moment>{
 		set(x-2, y-2, TileType.conveyor, 1);
 		set(x-2, y-1, TileType.conveyor, 1);
 		set(x-2, y, TileType.turret, 0);
+		}
 	}
 	
 	void set(int x, int y, TileType type, int rot){
