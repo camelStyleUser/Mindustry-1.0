@@ -331,6 +331,7 @@ public class Control extends RendererModule<Moment>{
 		}
 
 		if(main.recipe == null && !get(UI.class).hasMouse()){
+			if(tilex()<main.tiles.length&&tiley()<main.tiles.length&&tilex()>-1&&tiley()>-1){
 			Tile tile = main.tiles[tilex()][tiley()];
 
 			if(tile.block() != TileType.air){
@@ -341,6 +342,7 @@ public class Control extends RendererModule<Moment>{
 				}
 				if(tile.entity != null)
 					drawHealth(tile.entity);
+			}
 			}
 		}
 

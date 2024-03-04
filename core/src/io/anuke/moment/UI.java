@@ -32,6 +32,7 @@ public class UI extends SceneModule<Moment>{
 	public void update(){
 		scene.getBatch().setProjectionMatrix(get(Control.class).camera.combined);
 		scene.getBatch().begin();
+		if(tilex()<main.tiles.length&&tiley()<main.tiles.length&&tilex()>-1&&tiley()>-1){
 		Tile tile = main.tiles[tilex()][tiley()];
 		if(tile.block() != TileType.air){
 			String error = tile.block().error(tile);
@@ -48,6 +49,7 @@ public class UI extends SceneModule<Moment>{
 			
 			Draw.tscl(0.5f);
 			Draw.clear();
+		}
 		}
 		scene.getBatch().end();
 		
