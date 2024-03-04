@@ -144,9 +144,9 @@ public class Control extends RendererModule<Moment>{
 			main.recipe = null;
 			Cursors.restoreCursor();
 		}
-		//no
-		/*if(UInput.keyUp(Keys.G))
-			new Enemy(0).set(main.player.x, main.player.y).add();*/
+		//fine
+		if(MomentVars.platform.spawn())
+			new Enemy(0).set(main.player.x, main.player.y).add();
 
 		if(MomentVars.platform.isSelecting() && main.recipe != null && validPlace(tilex(), tiley(), main.recipe.result) && !get(UI.class).hasMouse()){
 			Tile tile = main.tile(tilex(), tiley());
@@ -351,8 +351,9 @@ public class Control extends RendererModule<Moment>{
 				drawHealth(dest);
 			}
 		}
-
+		/*
 		Draw.text(Gdx.graphics.getFramesPerSecond() + " FPS", main.player.x, main.player.y);
+		*/
 	}
 
 	void drawHealth(DestructibleEntity dest){

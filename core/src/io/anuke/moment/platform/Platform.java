@@ -17,6 +17,7 @@ public abstract boolean isBreaking();
 public abstract boolean isSelecting();
 public abstract boolean isDeselecting();
 public abstract boolean rotate();
+public abstract boolean spawn();
 public abstract void move(Vector2 vector,float speed);
 public void update(){};
 public void init(){};

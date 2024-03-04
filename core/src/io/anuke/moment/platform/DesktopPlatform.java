@@ -1,4 +1,4 @@
-package io.anuke.moment.desktop;
+package io.anuke.moment.platform;
 import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.core.UInput;
 import com.badlogic.gdx.Input.Buttons;
@@ -26,5 +26,8 @@ return UInput.buttonDown(Buttons.RIGHT);
 }
 public boolean isDeselecting(){
 return UInput.buttonDown(Buttons.RIGHT);
+}
+public boolean spawn(){
+return UInput.keyUp(Keys.G);
 }
 }
