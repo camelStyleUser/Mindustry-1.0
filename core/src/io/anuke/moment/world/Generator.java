@@ -13,9 +13,16 @@ public class Generator{
 	static final int white = Color.rgba8888(Color.WHITE);
 	static final int red = Color.rgba8888(Color.RED);
 	static final int blue = Color.rgba8888(Color.BLUE);
-	
 	public static void generate(Tile[][] tiles, String mapname){
-		Pixmap pix = new Pixmap(Gdx.files.internal("maps/"+mapname+".png"));
+	generate(tiles,mapname,true);
+	}
+	public static void generate(Tile[][] tiles, String mapname,boolean isinternal){
+		Pixmap pix;
+		if(isinternal){
+		pix = new Pixmap(Gdx.files.internal("maps/"+mapname+".png"));
+		}else{
+		pix = new Pixmap(Gdx.files.absolute(mapname));
+		}
 		Noise.setSeed(MathUtils.random(0, 99999));
 		for(int x = 0; x < tiles.length; x ++){
 			for(int y = 0; y < tiles.length; y ++){

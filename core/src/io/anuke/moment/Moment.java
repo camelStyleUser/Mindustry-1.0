@@ -21,6 +21,7 @@ import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Timers;
 
 public class Moment extends ModuleController<Moment>{
+	public static String overrideMap=null;
 	public static Moment i;
 	public Player player;
 	public int size = 128;
@@ -93,7 +94,11 @@ public class Moment extends ModuleController<Moment>{
 	}
 	
 	void generate(){
+		if(overrideMap==null){
 		Generator.generate(tiles, "map");
+		}else{
+		Generator.generate(tiles,overrideMap,false);
+		}
 		core.setBlock(TileType.core);
 		int x = core.x, y = core.y;
 		

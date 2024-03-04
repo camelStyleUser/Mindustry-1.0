@@ -8,7 +8,10 @@ import io.anuke.moment.MomentVars;
 public class DesktopLauncher {
 	public static void main (String[] args) {
 		boolean forcemobile=false;
+		boolean ispath=false;
 		for(String arg:args){
+		if(ispath){Moment.overrideMap=arg;ispath=false;continue;}
+		if(arg.equals("--full-map-path"))ispath=true;
 		if(arg.equals("--forcemobile"))forcemobile=true;
 		}
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
