@@ -31,6 +31,7 @@ public class Generator{
 	static final int blue = Color.rgba8888(Color.BLUE);//0000ffff
 	static final int gray = Color.rgba8888(Color.LIGHT_GRAY);//bfbfbfff
 	static final int orange = Color.rgba8888(Color.ORANGE);//ffa500ff
+	static final int brown=Color.rgba8888(Color.BROWN);//8b4513ff
 	static final int stoneWall=0x8b8b8bff;
 	static final int ironWall=0xaaaaaaff;
 	static final int stoneDrill=0x6b6b6bff;
@@ -96,6 +97,8 @@ public class Generator{
 				floor = TileType.coal;
 				}else if(color==orange){
 				floor=TileType.iron;
+				}else if(color==brown){
+				floor=TileType.dirt;
 				}else if(color==stoneWall){
 				Moment.seenBuild=true;
 				block=TileType.stonewall;
