@@ -95,7 +95,7 @@ public class Moment extends ModuleController<Moment>{
 	
 	void generate(){
 		if(overrideMap==null){
-		Generator.generate(tiles, "map");
+		Generator.generate(tiles, "map"+(int)(Math.random() * 3 + 1));
 		}else{
 		Generator.generate(tiles,overrideMap,false);
 		}
